@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>Change</h2>
+<mat-dialog-content class="mat-typography">
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-label>firstNameControl</mat-label>
+      <input matInput [formControl]="firstNameControl">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>lastNameControl</mat-label>
+      <input matInput [formControl]="lastNameControl">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>middleNameControl</mat-label>
+      <input matInput [formControl]="middleNameControl">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>positionControl</mat-label>
+      <input matInput [formControl]="positionControl">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>structuralSubdivisionControl</mat-label>
+      <input matInput [formControl]="structuralSubdivisionControl">
+    </mat-form-field>
+
+    serviceNumbersControl
+    <div class="inputs" *ngFor="let serviceNumbersControl of serviceNumbersControls;let i= index">
+      <mat-form-field appearance="fill">
+        <mat-label>serviceNumbersControl</mat-label>
+        <input matInput [formControl]="serviceNumbersControl">
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="removeServiceNumber(i)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <button mat-icon-button (click)="addServiceNumbersControl()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+
+    personalNumbers
+    <mat-form-field *ngFor="let personalNumbersControl of personalNumbersControls;let i= index" appearance="fill">
+      <mat-label>personalNumbersControl</mat-label>
+      <input matInput [formControl]="personalNumbersControl">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="removePersonalNumber(i)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button mat-icon-button (click)="addPersonalNumbersControl()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+
+    serviceMobileNumbers
+    <mat-form-field *ngFor="let serviceMobileNumbersControl of serviceMobileNumbersControls;let i= index"
+                    appearance="fill">
+      <mat-label>serviceMobileNumbersControl</mat-label>
+      <input matInput [formControl]="serviceMobileNumbersControl">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="removeServiceMobileNumber(i)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <button mat-icon-button (click)="addServiceMobileNumbersControl()">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button  mat-raised-button [mat-dialog-close]="true" color="primary" (click)="updateUser()"> confirm</button>
+  <button mat-button [mat-dialog-close]="true">Cancel</button>
+</mat-dialog-actions>

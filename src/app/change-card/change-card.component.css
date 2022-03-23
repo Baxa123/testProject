@@ -1,0 +1,14 @@
+mat-form-field{
+  width: 100%;
+}
+form{
+  display: flex;
+  flex-direction: column;
+}
+.mat-header-cell{
+  background-color: lightblue;
+}
+.inputs{
+  display: flex;
+}
+
