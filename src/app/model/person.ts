@@ -1,19 +1,19 @@
 import {Telephone} from "./telephone";
+import {StructuralSubdivision} from "./structural-subdivision";
 
 export class Person {
-  id?:number;
+  id:number;
   firstName: string;
   middleName: string;
   lastName: string;
   position: string;
-  structuralSubdivision: string;
+  structuralSubdivision: StructuralSubdivision;
   serviceNumbers: Telephone[];
   personalNumbers: Telephone[];
   serviceMobileNumbers: Telephone[];
 
-
-  constructor(firstName: string, lastName: string, middleName: string, position: string, structuralSubdivision: string, serviceNumbers: Telephone[], personalNumbers: Telephone[], serviceMobileNumbers: Telephone[],id?:number) {
-    this.id=id;
+  constructor(id:number,firstName: string, lastName: string, middleName: string, position: string, structuralSubdivision: StructuralSubdivision, serviceNumbers: Telephone[], personalNumbers: Telephone[], serviceMobileNumbers: Telephone[]) {
+    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.middleName = middleName;
@@ -24,3 +24,4 @@ export class Person {
     this.serviceMobileNumbers = serviceMobileNumbers;
   }
 }
+

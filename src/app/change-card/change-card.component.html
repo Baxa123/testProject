@@ -1,32 +1,36 @@
-<h2 mat-dialog-title>Change</h2>
+<h2 mat-dialog-title>{{data.person == null ? "Добавить запись" : "Изменить запись"}}</h2>
 <mat-dialog-content class="mat-typography">
   <form>
-    <mat-form-field appearance="fill">
-      <mat-label>firstNameControl</mat-label>
-      <input matInput [formControl]="firstNameControl">
+    <mat-form-field  appearance="fill">
+      <mat-label>Имя</mat-label>
+      <input required matInput [formControl]="firstNameControl">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>lastNameControl</mat-label>
-      <input matInput [formControl]="lastNameControl">
+      <mat-label>Фамилия</mat-label>
+      <input required matInput [formControl]="lastNameControl">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>middleNameControl</mat-label>
-      <input matInput [formControl]="middleNameControl">
+      <mat-label>Отчество</mat-label>
+      <input required matInput [formControl]="middleNameControl">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>positionControl</mat-label>
-      <input matInput [formControl]="positionControl">
+      <mat-label>Должность</mat-label>
+      <input required matInput [formControl]="positionControl">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>structuralSubdivisionControl</mat-label>
-      <input matInput [formControl]="structuralSubdivisionControl">
+      <mat-label>Структурное подразделение</mat-label>
+      <mat-select [formControl]="selectedStructuralSubdivision">
+        <mat-option value="{{ keys.HEAD }}">{{keys.HEAD|StructuralSubdivision}}</mat-option>
+        <mat-option value="{{ keys.SUB_HEAD }}">{{keys.SUB_HEAD|StructuralSubdivision}}</mat-option>
+        <mat-option value="{{ keys.WORKER }}">{{keys.WORKER|StructuralSubdivision}}</mat-option>
+      </mat-select>
     </mat-form-field>
 
-    serviceNumbersControl
-    <div class="inputs" *ngFor="let serviceNumbersControl of serviceNumbersControls;let i= index">
+    Служебный номер
+    <div class="input requireds" *ngFor="let serviceNumbersControl of serviceNumbersControls;let i= index">
       <mat-form-field appearance="fill">
-        <mat-label>serviceNumbersControl</mat-label>
-        <input matInput [formControl]="serviceNumbersControl">
+        <mat-label>Служебный номер</mat-label>
+        <input required matInput [formControl]="serviceNumbersControl">
         <button matSuffix mat-icon-button aria-label="Clear" (click)="removeServiceNumber(i)">
           <mat-icon>close</mat-icon>
         </button>
@@ -36,10 +40,10 @@
       <mat-icon>add_circle_outline</mat-icon>
     </button>
 
-    personalNumbers
+    Личный номер телефона
     <mat-form-field *ngFor="let personalNumbersControl of personalNumbersControls;let i= index" appearance="fill">
-      <mat-label>personalNumbersControl</mat-label>
-      <input matInput [formControl]="personalNumbersControl">
+      <mat-label> Личный номер телефона</mat-label>
+      <input required matInput [formControl]="personalNumbersControl">
       <button matSuffix mat-icon-button aria-label="Clear" (click)="removePersonalNumber(i)">
         <mat-icon>close</mat-icon>
       </button>
@@ -48,11 +52,11 @@
       <mat-icon>add_circle_outline</mat-icon>
     </button>
 
-    serviceMobileNumbers
+    Служебный мобильный номер телефона
     <mat-form-field *ngFor="let serviceMobileNumbersControl of serviceMobileNumbersControls;let i= index"
                     appearance="fill">
-      <mat-label>serviceMobileNumbersControl</mat-label>
-      <input matInput [formControl]="serviceMobileNumbersControl">
+      <mat-label> Служебный мобильный номер телефона</mat-label>
+      <input required matInput [formControl]="serviceMobileNumbersControl">
       <button matSuffix mat-icon-button aria-label="Clear" (click)="removeServiceMobileNumber(i)">
         <mat-icon>close</mat-icon>
       </button>
@@ -63,6 +67,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button  mat-raised-button [mat-dialog-close]="true" color="primary" (click)="updateUser()"> confirm</button>
+  <button mat-raised-button color="primary" (click)="updateUser()"> confirm</button>
   <button mat-button [mat-dialog-close]="true">Cancel</button>
 </mat-dialog-actions>

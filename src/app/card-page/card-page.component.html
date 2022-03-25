@@ -1,95 +1,137 @@
-<button mat-icon-button (click)="openChangeDialog()"><mat-icon>add_circle </mat-icon> addUser</button>
+<div class="{{checkWidth()?'menu':'menu-reduced'}}">
+  <button mat-raised-button (click)="openChangeDialog()">
+    <mat-icon>add_circle</mat-icon>
+    Добавить запись
+  </button>
+  <mat-form-field appearance="fill">
+    <mat-label>Структурное подразделение</mat-label>
+    <mat-select (selectionChange)="changeStructuralSubdivision($event)">
+      <mat-option [value]="-1"></mat-option>
+      <mat-option value="{{ keys.HEAD }}">{{keys.HEAD|StructuralSubdivision}}</mat-option>
+      <mat-option value="{{ keys.SUB_HEAD }}">{{keys.SUB_HEAD|StructuralSubdivision}}</mat-option>
+      <mat-option value="{{ keys.WORKER }}">{{keys.WORKER|StructuralSubdivision}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="sort()">
+    <mat-icon>sort</mat-icon>
+    Сортировать
+  </button>
+  <button mat-raised-button (click)="deletePersons()">
+    <mat-icon>delete</mat-icon>
+    Удалить записи
+  </button>
+</div>
 <mat-table *ngIf="checkWidth()" [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="toDelete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element;">
+      <mat-checkbox [checked]="isChecked(element)" (change)="selectionChange($event,element)"
+                    color="primary"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="firstName">
-    <mat-header-cell *matHeaderCellDef> firstName</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Имя</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="lastName">
-    <mat-header-cell *matHeaderCellDef> lastName</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Фамилия</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="middleName">
-    <mat-header-cell *matHeaderCellDef> middleName</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Отчество</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.middleName}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="position">
-    <mat-header-cell *matHeaderCellDef> position</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Должность</mat-header-cell>
     <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="structuralSubdivision">
-    <mat-header-cell *matHeaderCellDef> structuralSubdivision</mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.structuralSubdivision}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef> Структурное подразделение</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.structuralSubdivision|StructuralSubdivision}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="serviceNumbers">
-    <mat-header-cell *matHeaderCellDef> serviceNumbers</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Служебный номер</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <ng-container *ngFor="let num of element.serviceNumbers"> {{num.number}}<br></ng-container>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="personalNumbers">
-    <mat-header-cell *matHeaderCellDef> personalNumbers</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Личный номер телефона</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <ng-container *ngFor="let num of element.personalNumbers">{{num.number}}<br></ng-container>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="serviceMobileNumbers">
-    <mat-header-cell *matHeaderCellDef> serviceMobileNumbers</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Служебный мобильный номер телефона</mat-header-cell>
     <mat-cell *matCellDef="let element">
       <ng-container *ngFor="let num of element.serviceMobileNumbers"> {{num.number}}<br></ng-container>
     </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="change">
-    <mat-header-cell *matHeaderCellDef> change</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="openChangeDialog(element)"><mat-icon>edit</mat-icon></button>
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="delete">
-    <mat-header-cell *matHeaderCellDef>delete</mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <button mat-icon-button (click)="deletePerson(element)"><mat-icon>delete</mat-icon></button>
+      <button mat-icon-button (click)="openChangeDialog(element)">
+        <mat-icon>edit</mat-icon>
+      </button>
     </mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
-<table *ngIf="!checkWidth()" mat-table
-       [dataSource]="dataSource" multiTemplateDataRows
-       class="mat-elevation-z8">
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumnsReduced">
-    <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+
+
+<mat-table *ngIf="!checkWidth()" [dataSource]="dataSource" multiTemplateDataRows
+           class="mat-elevation-z8">
+  <ng-container matColumnDef="toDelete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let element;">
+      <mat-checkbox [checked]="isChecked(element)" (click)="$event.stopPropagation()"
+                    (change)="selectionChange($event,element)" color="primary"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef> Имя</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef> Фамилия</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="middleName">
+    <mat-header-cell *matHeaderCellDef> Отчество</mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.middleName}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsReduced.length">
+    <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsReduced.length">
       <div class="element-detail"
            [@detailExpand]="this.expandedElements.includes(element) ? 'expanded' : 'collapsed'">
-        <h5>position</h5>
+        <h5>Должность</h5>
         {{element.position}}
-        <h5>structuralSubdivision</h5>
-        {{element.structuralSubdivision}}
-        <h5>serviceNumbers</h5>
+        <h5>Структурное подразделение</h5>
+        {{element.structuralSubdivision |StructuralSubdivision}}
+        <h5>Служебный номер</h5>
         <p *ngFor="let serviceNumber of element.serviceNumbers">{{serviceNumber.number}}</p>
-        <h5>personalNumbers</h5>
+        <h5>Личный номер телефона</h5>
         <p *ngFor="let personalNumber of element.personalNumbers">{{personalNumber.number}}</p>
-        <h5>serviceMobileNumbers</h5>
+        <h5>Служебный мобильный номер телефона</h5>
         <p *ngFor="let personalNumber of element.personalNumbers">{{personalNumber.number}}</p>
         <div>
-        <button mat-icon-button (click)="openChangeDialog(element)"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button (click)="deletePerson(element)"><mat-icon>delete</mat-icon></button>
+          <button mat-icon-button (click)="openChangeDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       </div>
 
-    </td>
+    </mat-cell>
   </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsReduced"></tr>
-  <tr mat-row *matRowDef="let element; columns: displayedColumnsReduced;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElements.includes(element)"
-      (click)="expand(element)">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table>
+  <mat-header-row *matHeaderRowDef="displayedColumnsReduced"></mat-header-row>
+  <mat-row *matRowDef="let element; columns: displayedColumnsReduced;"
+           class="element-row"
+           [class.example-expanded-row]="expandedElements.includes(element)"
+           (click)="expand(element)">
+  </mat-row>
+  <mat-row *matRowDef="let mat-row; columns: ['expandedDetail']" class="example-detail-row"></mat-row>
+</mat-table>

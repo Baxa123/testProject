@@ -15,28 +15,34 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSelectModule} from "@angular/material/select";
+import { StructuralSubdivisionPipe } from './card-page/structual-subdivision.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CardPageComponent,
-    ChangeCardComponent
+    ChangeCardComponent,
+    StructuralSubdivisionPipe
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatDialogModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatDialogModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatSelectModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

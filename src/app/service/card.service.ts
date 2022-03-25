@@ -20,11 +20,15 @@ export class CardService {
 
   }
 
-  delete(id: number) {
-    return this.http.delete("https://localhost:7157/Home/Delete/" + id);
+  delete(selectedPersons: number[]) {
+    return this.http.post("https://localhost:7157/Home/Delete/", selectedPersons);
   }
 
   createUser(person: Person) {
     return this.http.post("https://localhost:7157/Home/CreatePerson", person);
+  }
+
+  changeStructuralSubdivision(value: string) {
+    return this.http.get<Person[]>("https://localhost:7157/Home/changeStructuralSubdivision?selectedStructuralSubdivision=" + value)
   }
 }
