@@ -21,7 +21,6 @@ export class ChangeCardComponent {
   serviceMobileNumbersControls: FormControl[] = [];
   keys = StructuralSubdivision;
   selectedStructuralSubdivision: FormControl = new FormControl();
-  isFormValid=false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, fb: FormBuilder, private cardService: CardService) {
     if (data.person == null) {
@@ -65,7 +64,7 @@ export class ChangeCardComponent {
   }
 
   updateUser() {
-    if(this.validate()) {
+    if (this.validate()) {
       let person = new Person(-1, this.firstNameControl.value,
         this.lastNameControl.value,
         this.middleNameControl.value,
@@ -76,11 +75,10 @@ export class ChangeCardComponent {
         this.serviceMobileNumbersControls.map(
           serviceMobileNumbersControl => new Telephone(serviceMobileNumbersControl.value)))
       if (this.data.person == undefined) {
-        this.cardService.createUser(person).subscribe();
+        this.cardService.createUser(person).subscribe(() => location.reload());
       } else {
-        this.cardService.updateUser(this.data.person.id, person).subscribe();
+        this.cardService.updateUser(this.data.person.id, person).subscribe(() => location.reload());
       }
-      location.reload();
     }
   }
 
@@ -90,9 +88,9 @@ export class ChangeCardComponent {
       this.middleNameControl.valid &&
       this.positionControl.valid &&
       this.selectedStructuralSubdivision.valid &&
-      this.serviceNumbersControls.length!=0&&
-      this.personalNumbersControls.length!=0&&
-      this.serviceMobileNumbersControls.length!=0&&
+      this.serviceNumbersControls.length != 0 &&
+      this.personalNumbersControls.length != 0 &&
+      this.serviceMobileNumbersControls.length != 0 &&
       this.serviceNumbersControls.filter(serviceNumbersControl => !serviceNumbersControl.valid).length == 0 &&
       this.personalNumbersControls.filter(personalNumbersControl => !personalNumbersControl.valid).length == 0 &&
       this.serviceMobileNumbersControls.filter(
